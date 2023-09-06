@@ -11,7 +11,7 @@ class MemberTest {
     @Test
     @DisplayName("회원은 닉네임을 변경할 수 있다.")
     public void testChangeName() {
-        Follow member = MemberFixtureFactory.create();
+        Member member = MemberFixtureFactory.create();
         String expected = "minbeom";
         member.changeNickname(expected);
 
@@ -20,7 +20,7 @@ class MemberTest {
     @Test
     @DisplayName("회원은 닉네임은 최대 10자리를 넘을 수 없다.")
     public void testNicknameMaxLength() {
-        Follow member = MemberFixtureFactory.create();
+        Member member = MemberFixtureFactory.create();
         String overMaxLength = "minbeomminbeommin";
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> member.changeNickname(overMaxLength));

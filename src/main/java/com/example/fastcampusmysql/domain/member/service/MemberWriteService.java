@@ -33,7 +33,7 @@ public class MemberWriteService {
     }
 
     public void changeNickname(Long memberId, String nickname) {
-        Member member = memberRepository.findByid(memberId).orElseThrow();
+        Member member = memberRepository.findById(memberId).orElseThrow();
         member.changeNickname(nickname);
         memberRepository.save(member);
 
