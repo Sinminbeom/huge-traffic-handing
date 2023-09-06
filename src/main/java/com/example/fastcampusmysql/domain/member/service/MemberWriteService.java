@@ -44,7 +44,7 @@ public class MemberWriteService {
     private void saveNicknameHistory(Member member) {
         MemberNicknameHistory memberNicknameHistory = MemberNicknameHistory
                 .builder()
-                .id(member.getId())
+                .memberId(member.getId())
                 .nickname(member.getNickname())
                 .createdAt(member.getCreatedAt())
                 .build();
