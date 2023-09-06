@@ -29,7 +29,14 @@ public class Member {
         this.createdAt = createdAt == null ? LocalDateTime.now() : createdAt;
     }
 
-    void validateNickname(String nickname) {
+    public void changeNickname(String to) {
+        // 널이 아니여야 하고
+        Objects.requireNonNull(to);
+        // 최대 길이 10
+        validateNickname(to);
+        nickname = to;
+    }
+    private void validateNickname(String nickname) {
         Assert.isTrue(nickname.length() <= NAME_MAX_LENGTH, "최대 길이를 초과했습니다.");
     }
 }
