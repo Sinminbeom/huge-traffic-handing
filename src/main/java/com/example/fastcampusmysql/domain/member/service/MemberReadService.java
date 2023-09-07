@@ -18,11 +18,15 @@ public class MemberReadService {
     private final MemberNicknameHistoryRepository memberNicknameHistoryRepository;
 
     public MemberDTO getMember(Long id) {
-        Member member = memberRepository.findByid(id).orElseThrow();
+        Member member = memberRepository.findById(id).orElseThrow();
         return toDTO(member);
     }
     public MemberDTO toDTO(Member member) {
         return new MemberDTO(member.getId(), member.getEmail(), member.getNickname(), member.getBirthday());
+    }
+    public List<MemberDTO> getMembers(List<Long> ids) {
+        List<Member> members = memberRepository.findAllbyIdIn(ids);
+        return members.stream().map(this::toDTO).toList();
     }
     public List<MemberNicknameHistoryDTO> getNicknameHistories(Long memberId) {
         return memberNicknameHistoryRepository.findAllByMemberId(memberId)
