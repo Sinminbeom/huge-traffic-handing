@@ -21,19 +21,20 @@ public class PostBulkInsertTest {
     @Test
     public void bulkInserts() {
         EasyRandom easyRandom = PostFixtureFactory.get(
-                3L,
-                LocalDate.of(2023, 9, 1),
-                LocalDate.of(2023, 9, 30)
+                2L,
+                LocalDate.of(1970, 1, 1),
+                LocalDate.of(2022, 2, 1)
         );
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
-
-        List<Post> posts = IntStream.range(0, 10000 * 100)
+        int count = 20000 * 100;
+//        int count = 5;
+        List<Post> posts = IntStream.range(0, count)
                 .parallel()
                 .mapToObj(i -> easyRandom.nextObject(Post.class))
                 .toList();
         stopWatch.stop();
-        System.out.println("객체 생성 시간 = " + stopWatch.getTotalTimeSeconds());
+//        System.out.println("객체 생성 시간 = " + stopWatch.getTotalTimeSeconds());
 
         StopWatch queryStopWatch = new StopWatch();
         queryStopWatch.start();
