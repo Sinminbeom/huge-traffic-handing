@@ -52,6 +52,14 @@ create index POST__index_created_date
 create index POST__index_member_id_created_date
     on POST (memberId, createdDate);
 
+create table Timeline
+(
+    id int auto_increment,
+    memberId int not null,
+    postId int not null,
+    createdAt datetime not null,
+    constraint Timeline_id_uindex primary key (id)
+);
 
 #####################################################
 ### 쿼리 테스트
@@ -72,7 +80,7 @@ group by createdDate
 order by 2 desc;
 
 select count(distinct createdDate)
-from POST
+from POST;
 
 explain SELECT createdDate, memberId, count(*) as count
         FROM POST use index (POST__index_member_id)
@@ -82,7 +90,8 @@ explain SELECT createdDate, memberId, count(*) as count
 
 explain SELECT createdDate, memberId, count(*) as count
         FROM POST use index (POST__index_created_date)
-        WHERE createdDate between '1900-01-01' and '2023-01-01'
+        WHERE memberId = 3
+          AND createdDate between '1900-01-01' and '2023-01-01'
         GROUP BY memberId, createdDate; # 17s
 
 SELECT *
