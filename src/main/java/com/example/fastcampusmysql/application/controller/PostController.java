@@ -49,6 +49,7 @@ public class PostController {
 
     @GetMapping("/member/{memberId}/timeline")
     public PageCursor<Post> getTimeline(@PathVariable Long memberId, CursorRequest cursorRequest) {
-        return getTimelinePostUsecase.execute(memberId, cursorRequest);
+//        return getTimelinePostUsecase.execute(memberId, cursorRequest);
+        return getTimelinePostUsecase.executeByTimeline(memberId, cursorRequest);
     }
 }
