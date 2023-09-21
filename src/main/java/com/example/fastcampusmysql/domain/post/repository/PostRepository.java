@@ -26,9 +26,19 @@ public class PostRepository {
                     resultSet.getObject("createdDate", LocalDate.class),
                     resultSet.getLong("count")
             );
+    public void bulkInsert(List<Post> posts) {
+        String sql = String.format("""
+                INSERT INTO `%s` (memberId, contents, createdDate, createdAt)
+                VALUES (:memberId, :contents, :createdDate, :createdAt)
+                """, TABLE);
+        SqlParameterSource[] params = posts.stream()
+                .map(BeanPropertySqlParameterSource::new)
+                .toArray(SqlParameterSource[]::new);
+        namedParameterJdbcTemplate.batchUpdate(sql, params);
+    }
     public List<DailyPostCount> groupByCreatedDate(DailyPostCountRequest request) {
         String sql = String.format("""
-                SELECT createDate, memberId, count(id) as count
+                SELECT createdDate, memberId, count(id) as count
                 FROM %s
                 WHERE memberId = :memberId
                 AND createdDate BETWEEN :firstDate and :lastDate
