@@ -52,6 +52,20 @@ public class PostRepository {
         SqlParameterSource params = new BeanPropertySqlParameterSource(request);
         return namedParameterJdbcTemplate.query(sql, params, DAILY_POST_COUNT_MAPPER);
     }
+
+    public List<Post> findAllbyInId(List<Long> Ids) {
+        if (Ids.isEmpty()) {
+            return List.of();
+        }
+        String sql = String.format("""
+                SELECT *
+                FROM %s
+                WHERE id in (:Ids)
+                """, TABLE);
+        SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("Ids", Ids);
+        return namedParameterJdbcTemplate.query(sql, params, ROW_MAPPER);
+    }
     public Page<Post> findAllByMemberId(Long memberId, Pageable pageable) {
         String sql = String.format("""
                 SELECT *
