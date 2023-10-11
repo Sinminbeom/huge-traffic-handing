@@ -106,3 +106,18 @@ GROUP BY memberId, createdDate; # 17s
 # 첫번째 데이터 분포
 # 두번째 데이터 검색의 범위
 # 셋번째 where 절에 인덱스가 걸려있지 않는 컬럼이 있는지
+
+#####################################################
+
+alter table POST add column likeCount int;
+alter table POST add column version int default 0;
+
+
+select * from POST where createdAt = '2016-03-27 00:35:00';
+
+start transaction;
+select * from POST where createdAt = '2016-03-27 00:35:00' for update;
+commit;
+
+select count(*) from performance_schema.data_locks where LOCK_TYPE = 'RECORD';
+select * from information_schema.INNODB_TRX;
