@@ -133,3 +133,14 @@ commit;
 
 select count(*) from performance_schema.data_locks where LOCK_TYPE = 'RECORD';
 select * from information_schema.INNODB_TRX;
+
+#####################################################
+
+create table PostLike
+(
+    id int auto_increment,
+    memberId int not null,
+    postId int not null,
+    createdAt datetime not null,
+    constraint PostLike_id_uindex primary key (id)
+)

@@ -48,6 +48,9 @@ public class PostReadService {
     public List<Post> getPosts(List<Long> Ids) {
         return postRepository.findAllbyInId(Ids);
     }
+    public Post getPost(Long postId) {
+        return postRepository.findById(postId, false).orElseThrow();
+    }
 
     private List<Post> findAllBy(Long memberId, CursorRequest cursorRequest) {
         if (cursorRequest.hasKey()) {
