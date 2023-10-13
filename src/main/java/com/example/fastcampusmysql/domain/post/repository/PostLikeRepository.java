@@ -4,6 +4,7 @@ import com.example.fastcampusmysql.domain.post.entity.PostLike;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -25,8 +26,15 @@ public class PostLikeRepository {
                     .postId(resultSet.getLong("postId"))
                     .createdAt(resultSet.getObject("createdAt", LocalDateTime.class))
                     .build();
-
-
+    public Long getCount(Long postId) {
+        String sql = String.format("""
+                SELECT COUNT(*)
+                FROM %s
+                WHERE postId = :postId              
+                """, TABLE);
+        SqlParameterSource params = new MapSqlParameterSource().addValue("postId", postId);
+        return namedParameterJdbcTemplate.queryForObject(sql, params, Long.class);
+    }
     public PostLike save(PostLike postLike) {
         if(postLike.getId() == null) {
             return insert(postLike);
