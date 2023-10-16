@@ -25,7 +25,7 @@ public class MemberReadService {
         return new MemberDTO(member.getId(), member.getEmail(), member.getNickname(), member.getBirthday());
     }
     public List<MemberDTO> getMembers(List<Long> ids) {
-        List<Member> members = memberRepository.findAllbyIdIn(ids);
+        List<Member> members = memberRepository.findAllByIdIn(ids);
         return members.stream().map(this::toDTO).toList();
     }
     public List<MemberNicknameHistoryDTO> getNicknameHistories(Long memberId) {

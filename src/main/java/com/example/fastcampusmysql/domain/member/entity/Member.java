@@ -2,19 +2,28 @@ package com.example.fastcampusmysql.domain.member.entity;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.util.Assert;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
+@Entity
+@NoArgsConstructor
 public class Member {
-    final private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String nickname;
-    final private String email;
-    final private LocalDate birthday;
-    final private LocalDateTime createdAt;
+    private String email;
+    private LocalDate birthday;
+    private LocalDateTime createdAt;
 
     final private static Long NAME_MAX_LENGTH = 10L;
     @Builder
