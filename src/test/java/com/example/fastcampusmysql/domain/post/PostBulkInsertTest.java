@@ -1,6 +1,7 @@
 package com.example.fastcampusmysql.domain.post;
 
 import com.example.fastcampusmysql.domain.post.entity.Post;
+import com.example.fastcampusmysql.domain.post.repository.JpaPostRepository;
 import com.example.fastcampusmysql.domain.post.repository.PostRepository;
 import com.example.fastcampusmysql.util.PostFixtureFactory;
 import org.jeasy.random.EasyRandom;
@@ -16,7 +17,7 @@ import java.util.stream.IntStream;
 @SpringBootTest
 public class PostBulkInsertTest {
     @Autowired
-    private PostRepository postRepository;
+    private JpaPostRepository postRepository;
 
     @Test
     public void bulkInserts() {
@@ -39,7 +40,7 @@ public class PostBulkInsertTest {
         StopWatch queryStopWatch = new StopWatch();
         queryStopWatch.start();
 
-        postRepository.bulkInsert(posts);
+        postRepository.saveAll(posts);
 
         queryStopWatch.stop();
         System.out.println("DB Insert 시간 = " + queryStopWatch.getTotalTimeSeconds());

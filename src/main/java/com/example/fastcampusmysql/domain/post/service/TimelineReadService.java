@@ -1,6 +1,5 @@
 package com.example.fastcampusmysql.domain.post.service;
 
-import com.example.fastcampusmysql.domain.post.entity.Post;
 import com.example.fastcampusmysql.domain.post.entity.Timeline;
 import com.example.fastcampusmysql.domain.post.repository.TimelineRepository;
 import com.example.fastcampusmysql.util.CursorRequest;
@@ -22,7 +21,7 @@ public class TimelineReadService {
     }
     private List<Timeline> findAllBy(Long memberId, CursorRequest cursorRequest) {
         if (cursorRequest.hasKey()) {
-            return timelineRepository.findAllByLessThanIdAndMemberIdAndOrderByIdDesc(cursorRequest.key(), memberId, cursorRequest.size());
+            return timelineRepository.findAllByIdLessThanAndMemberIdAndOrderByIdDesc(cursorRequest.key(), memberId, cursorRequest.size());
         } else {
             return timelineRepository.findAllByMemberIdAndOrderByIdDesc(memberId, cursorRequest.size());
         }
