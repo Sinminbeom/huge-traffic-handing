@@ -5,17 +5,17 @@ import com.example.fastcampusmysql.domain.post.dto.DailyPostCountRequest;
 import com.example.fastcampusmysql.domain.post.entity.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 public interface JpaPostRepository extends JpaRepository<Post, Long>, PostRepository {
-    //TODO : JPQL로 구현
-//    String sql = String.format("""
-//                SELECT createdDate, memberId, count(id) as count
-//                FROM %s
-//                WHERE memberId = :memberId
-//                AND createdDate BETWEEN :firstDate and :lastDate
-//                GROUP BY createdDate, memberId
-//                """, TABLE);
-    List<DailyPostCount> groupByCreatedDate(DailyPostCountRequest request);
+    @Query(value = """
+    SELECT new com.example.fastcampusmysql.domain.post.dto.DailyPostCount(p.memberId, p.createdDate, count(p.id))
+    FROM Post p
+    WHERE p.memberId = :#{#test.memberId}
+      AND p.createdDate BETWEEN :#{#test.firstDate} AND :#{#test.lastDate}
+    GROUP BY p.memberId, p.createdDate
+""")
+    List<DailyPostCount> groupByCreatedDate(@Param("test") DailyPostCountRequest request);
 }

@@ -6,10 +6,11 @@ import com.example.fastcampusmysql.domain.post.entity.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface PostRepository {
-//    List<DailyPostCount> groupByCreatedDate(DailyPostCountRequest request);
+    List<DailyPostCount> groupByCreatedDate(DailyPostCountRequest request);
     List<Post> findAllByIdIn(List<Long> Ids);
     Page<Post> findAllByMemberId(Long memberId, Pageable pageable);
     Long countByMemberId(Long memberId);
@@ -18,6 +19,5 @@ public interface PostRepository {
     List<Post> findAllByIdLessThanAndMemberIdOrderByIdDesc(Long id, Long memberId, Pageable pageable);
     List<Post> findAllByIdLessThanAndMemberIdInOrderByIdDesc(Long id, List<Long> memberIds, Pageable pageable);
     Post save(Post post);
-//    List<Post> saveAll(List<Post> posts);
-
+    List<Post> saveAll(List<Post> posts);
 }
