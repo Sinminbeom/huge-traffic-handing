@@ -19,5 +19,5 @@ public interface PostRepository {
     List<Post> findAllByIdLessThanAndMemberIdOrderByIdDesc(Long id, Long memberId, Pageable pageable);
     List<Post> findAllByIdLessThanAndMemberIdInOrderByIdDesc(Long id, List<Long> memberIds, Pageable pageable);
     Post save(Post post);
-    List<Post> saveAll(List<Post> posts);
+//    List<Post> saveAll(List<Post> posts);
 }
