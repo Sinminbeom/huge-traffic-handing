@@ -40,7 +40,7 @@ public class TimelineRepository {
                 .addValue("size", size);
         return namedParameterJdbcTemplate.query(sql, params, ROW_MAPPER);
     }
-    public List<Timeline> findAllByLessThanIdAndMemberIdAndOrderByIdDesc(Long id, Long memberId, int size) {
+    public List<Timeline> findAllByIdLessThanAndMemberIdAndOrderByIdDesc(Long id, Long memberId, int size) {
         String sql = String.format("""
                 SELECT *
                 FROM %s

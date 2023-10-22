@@ -2,16 +2,24 @@ package com.example.fastcampusmysql.domain.member.entity;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
+@Entity
+@NoArgsConstructor
 public class MemberNicknameHistory {
-    private final Long id;
-    private final Long memberId;
-    private final String nickname;
-    private final LocalDateTime createdAt;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private Long memberId;
+    private String nickname;
+    private LocalDateTime createdAt;
 
     @Builder
     public MemberNicknameHistory(Long id, Long memberId, String nickname, LocalDateTime createdAt) {

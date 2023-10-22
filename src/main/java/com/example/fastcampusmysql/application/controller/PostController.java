@@ -59,8 +59,8 @@ public class PostController {
     // 좋아요 기능(낙관적락, 비관적락)
     @PostMapping("/{postId}/like/v1")
     public void likePost(@PathVariable Long postId) {
-//        postWriteService.likePost(postId); // 비관적락
-        postWriteService.likePostByOptimisticLock(postId); // 낙관적락
+        postWriteService.likePost(postId); // 비관적락
+//        postWriteService.likePostByOptimisticLock(postId); // 낙관적락
     }
     // 좋아요 기능(좋아요 테이블 추가)
     @PostMapping("/{postId}/like/v2")
