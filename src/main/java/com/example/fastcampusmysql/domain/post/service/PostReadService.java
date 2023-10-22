@@ -2,8 +2,9 @@ package com.example.fastcampusmysql.domain.post.service;
 
 import com.example.fastcampusmysql.domain.post.dto.DailyPostCount;
 import com.example.fastcampusmysql.domain.post.dto.DailyPostCountRequest;
+import com.example.fastcampusmysql.domain.post.dto.PostDTO;
 import com.example.fastcampusmysql.domain.post.entity.Post;
-import com.example.fastcampusmysql.domain.post.repository.JpaPostRepository;
+import com.example.fastcampusmysql.domain.post.repository.PostLikeRepository;
 import com.example.fastcampusmysql.domain.post.repository.PostRepository;
 import com.example.fastcampusmysql.util.CursorRequest;
 import com.example.fastcampusmysql.util.PageCursor;
@@ -11,16 +12,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.awt.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class PostReadService {
-//    private final PostRepository postRepository;
-    private final JpaPostRepository postRepository;
+    private final PostRepository postRepository;
+    private final PostLikeRepository postLikeRepository;
 
     public List<DailyPostCount> getDailyPostCount(DailyPostCountRequest request) {
         /*
@@ -30,9 +32,10 @@ public class PostReadService {
             group by createdDate, memberId
          */
         return postRepository.groupByCreatedDate(request);
+
     }
-    public Page<Post> getPosts(Long memberId, Pageable pageable) {
-        return postRepository.findAllByMemberId(memberId, pageable);
+    public Page<PostDTO> getPosts(Long memberId, Pageable pageable) {
+        return postRepository.findAllByMemberId(memberId, pageable).map(this::toDTO);
     }
     public PageCursor<Post> getPosts(Long memberId, CursorRequest cursorRequest) {
         List<Post> posts = findAllBy(memberId, cursorRequest);
@@ -47,6 +50,16 @@ public class PostReadService {
     }
     public List<Post> getPosts(List<Long> Ids) {
         return postRepository.findAllByIdIn(Ids);
+    }
+    private PostDTO toDTO(Post post) {
+        return new PostDTO(
+                post.getId(),
+                post.getContents(),
+                post.getCreatedAt(),
+                postLikeRepository.getCount(post.getId()));
+    }
+    public Post getPost(Long postId) {
+        return postRepository.findById(postId, false).orElseThrow();
     }
 
     private List<Post> findAllBy(Long memberId, CursorRequest cursorRequest) {
